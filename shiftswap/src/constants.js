@@ -1,0 +1,3 @@
+export const SIGNED_IN = 'SIGNED_IN';
+export const AVAILABLE_SHIFTS = 'AVAILABLE_SHIFTS';
+export const TAKEN_SHIFTS = 'TAKEN_SHIFTS';
