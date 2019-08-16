@@ -1,0 +1,113 @@
+<!DOCTYPE <!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--Meta-->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Notely | Notes for the modern era. Notely is a modern note taking web-app made with Vue. Notes are easy to organize and have a clean modern look to them." />
+
+    <!--Site-->
+    <title>Notely | Make memorable, clean, modern notes.</title>
+    <link rel="shortcut icon" type="image/png" href="./favicon.png"/>
+
+    <!--Bootstrap-->
+    <link rel="stylesheet" href="./css/bootstrap.min.css" />
+
+    <!--Custom Styles-->
+    <link rel="stylesheet" type="text/css" media="screen" href="./css/main.css" />
+
+    <!--Vuejs-->
+    <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+
+    <div id="app" class="container mt-5">
+
+        <!--Title and page Content: -->
+        <h1 class="text-center mt-5">{{title}}</h1>
+        <p class="mb-5 lead font-weight-bold text-center">{{tagline}}</p>
+
+        <!--Make Note Container-->
+        <div class="container col-sm-10 border border-info shadow-lg rounded-lg mt-1 addNoteContainer">
+            <h2 class="my-2">Make Notes:</h2>
+            <form id="createNoteForm">
+                <div class="form-group">
+                    <label class="mb-1" for="noteTitle">Note Title:</label>
+                    <input type="text" id="noteTitle" v-model="note.title" class="form-control" placeholder="Amazing Day">
+                </div>
+                <div class="form-group">
+                    <label class="mb-1" for="noteText">Note Text:</label>
+                    <textarea class="form-control" id="noteText" v-model="note.text" placeholder="What had happened was..." rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="mb-1" for="colorSelect">Note Color:</label>
+                    <select class="form-control" id="colorSelect" v-model="note.style">
+                      <option value="border-primary" selected="selected" selected>Blue</option>
+                      <option value="border-success">Green</option>
+                      <option value="border-danger">Red</option>
+                      <option value="border-warning">Yellow</option>
+                      <option value="border-dark">Black</option>
+                    </select>
+                  </div>
+                <button type="button" @click="addNote" class="btn btn-success btn-md btn-block col-sm-12">📝 Make Note</button>
+            </form>
+        </div><!-- /.addNoteContainer-->
+
+        <!--Message alert:-->
+        <div class="text-center" id="messageDiv"></div>
+        <!-- /Message Alert-->
+
+        <!--Organize Notes Form: -->
+        <div class="organizeByColor container col-sm-10 my-5 px-3 py-3 border border-primary rounded shadow">
+            <form class="organizeForm col-sm-12">
+                <div class="form-group col-sm-12">
+                    <label class="col-sm-12" for="organizeSelect"><h4 class="text-center">Organize Notes</h4></label>
+                    <!--
+                        Option to default color 
+                        v-model="currentColor.style" -->
+                    <p class="lead mb-1">By Color 🎨</p>
+                    <select class="form-control" id="organizeSelect" > 
+                        <option value="border">All</option>
+                        <option value="border-primary">Blue</option>
+                        <option value="border-success">Green</option>
+                        <option value="border-danger">Red</option>
+                        <option value="border-warning">Yellow</option>
+                        <option value="border-dark">Black</option>
+                    </select>
+                    <label for="prioritySelect"><p class="mb-1 mt-3 lead">By Priority ⭐</p> <small>(coming soon)</small></label>
+                    <select id="prioritySelect" class="form-control" id="prioritySelect" disabled> 
+                            <option value="all">All</option>
+                            <option value="prority-1">1 High</option>
+                            <option value="priority-2">2 Medium-High</option>
+                            <option value="priority-3">3 Medium</option>
+                            <option value="priority-4">4 Medium-Low</option>
+                            <option value="priority-5">5 Low</option>
+                        </select>
+                    <!-- <p class="text-muted">By Priority <small>(coming soon)</small></p> -->
+                </div>
+                <button id="organizeColorButton" type="button" @click="organizeNotesByColor" class="btn btn-primary btn-block">Organize 📚</button>
+            </form>
+        </div>
+        <!-- / Organize Notes Form-->
+       
+        <!-- Note Container: (.noteContainer) -->
+        <div id="noteContainer" class="container card-container">
+                <h3 class="text-center mb-1 col-sm-12">Currently Showing {{currentColor.text}} Notes</h3>
+                <div class="card mx-3 my-3 border" v-if="note.style.includes(currentColor.style)"  :class="note.style" v-for="(note, index) in notes">
+                    <div class="card-body" >
+                        <span class="close" @click="removeNote(index)">&times;</span>
+                        <h3 class="card-title">{{note.title}}</h3>
+                        <p class="card-text">{{note.text}}</p>
+                    </div>
+                    <div class="card-footer text-muted">
+                        {{note.date}}
+                    </div>
+                </div>
+        </div><!-- /.noteContainer-->
+
+    </div> <!-- /#app-->
+    
+    <script src="./js/index.js"></script>
+</body>
+</html>
